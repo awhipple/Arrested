@@ -7,29 +7,33 @@
 package arrested.actors;
 
 import arrested.GameState;
-import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
+import util.ResourceLibrary;
 
 /**
  *
  * @author Aaron
  */
-public class Player implements Actor {
-
-    private float x, y;
-    private double speed;
-    
-    private Image img;
-    
+public class Player extends Character implements Actor {
+       
     public Player() {}
     
     @Override
     public void init(GameState gs) {
         x = gs.getScreenWidth() / 2;
         y = gs.getScreenHeight() / 2;
-        speed = 300d;
+        speed = 220d;
+
+        ResourceLibrary resLib = gs.getResLib();
         
-        img = gs.getResLib().getImage("player");
+        this.setAnimations(resLib.getAnim("playerWalkUp"), 
+                           resLib.getAnim("playerWalkDown"),
+                           resLib.getAnim("playerWalkLeft"),
+                           resLib.getAnim("playerWalkRight"),
+                           resLib.getAnim("playerStandUp"),
+                           resLib.getAnim("playerStandDown"),
+                           resLib.getAnim("playerStandLeft"),
+                           resLib.getAnim("playerStandRight"));
     }
     
     @Override
@@ -37,15 +41,31 @@ public class Player implements Actor {
         Input input = gs.getInput();
         double delta = gs.getDelta();
 
-        if(input.isKeyDown(Input.KEY_W)) y -= speed * delta;
-        if(input.isKeyDown(Input.KEY_S)) y += speed * delta;
+        boolean moved = false;
         
-        if(input.isKeyDown(Input.KEY_A)) x -= speed * delta;
-        if(input.isKeyDown(Input.KEY_D)) x += speed * delta;
+        if(input.isKeyDown(Input.KEY_W)) {
+            moveUp(delta);
+            moved = true;
+        }
+        else if(input.isKeyDown(Input.KEY_S)) {
+            moveDown(delta);
+            moved = true;
+        }
+        
+        if(input.isKeyDown(Input.KEY_A)) {
+            moveLeft(delta);
+            moved = true;
+        }
+        else if(input.isKeyDown(Input.KEY_D)) {
+            moveRight(delta);
+            moved = true;
+        }
+        
+        if(!moved) stopMoving();
     }
 
     @Override
     public void render() {
-        img.draw(x - img.getWidth()/2, y - img.getHeight()/2);
+        draw();
     }
 }
