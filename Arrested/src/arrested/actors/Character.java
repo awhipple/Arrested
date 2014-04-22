@@ -20,6 +20,8 @@ public class Character {
     protected double speed;
     protected int dir;
     
+    protected CharacterActions act;
+    
     public Character() {
         sprite = new Sprite();
         
@@ -27,6 +29,8 @@ public class Character {
         this.y = 0;
         this.speed = 100d;
         this.dir = 3;
+        
+        act = new CharacterActions();
     }
     
     public void setAnimations(Animation moveUp, Animation moveDown, Animation moveLeft, Animation moveRight, 
@@ -82,6 +86,41 @@ public class Character {
                     break;
         }
         dir = 0;
+    }
+    protected void updateActions(double delta) {
+        double curSpeed = (act.moveHorizontal != 0 && act.moveVertical != 0) ? speed * 0.71d : speed;
+        x += curSpeed * delta * act.moveHorizontal;
+        y += curSpeed * delta * act.moveVertical;
+        
+        if(dir != 1 && act.moveVertical == -1 && act.moveHorizontal == 0) {
+            dir = 1;
+            sprite.setAnimation("moveUp");
+        }
+        if(dir != 2 && act.moveHorizontal == 1 && act.moveVertical == 0) {
+            dir = 2;
+            sprite.setAnimation("moveRight");
+        }
+        if(dir != 3 && act.moveVertical == 1 && act.moveHorizontal == 0) {
+            dir = 3;
+            sprite.setAnimation("moveDown");
+        }
+        if(dir != 4 && act.moveHorizontal == -1 && act.moveVertical == 0) {
+            dir = 4;
+            sprite.setAnimation("moveLeft");
+        }
+        if(act.moveHorizontal == 0 && act.moveVertical == 0) {
+            switch(dir) {
+            case 1: sprite.setAnimation("standUp");
+                    break;
+            case 2: sprite.setAnimation("standRight");
+                    break;
+            case 3: sprite.setAnimation("standDown");
+                     break;
+            case 4: sprite.setAnimation("standLeft");
+                    break;
+            }
+            dir = 0;
+        }
     }
     public void draw() {
         sprite.draw((int)x, (int)y);

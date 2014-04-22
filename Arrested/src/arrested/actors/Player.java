@@ -41,27 +41,23 @@ public class Player extends Character implements Actor {
         Input input = gs.getInput();
         double delta = gs.getDelta();
 
-        boolean moved = false;
-        
+        act.moveVertical = 0;
         if(input.isKeyDown(Input.KEY_W)) {
-            moveUp(delta);
-            moved = true;
+            act.moveVertical--;
         }
-        else if(input.isKeyDown(Input.KEY_S)) {
-            moveDown(delta);
-            moved = true;
+        if(input.isKeyDown(Input.KEY_S)) {
+            act.moveVertical++;
         }
         
+        act.moveHorizontal = 0;
         if(input.isKeyDown(Input.KEY_A)) {
-            moveLeft(delta);
-            moved = true;
+            act.moveHorizontal--;
         }
-        else if(input.isKeyDown(Input.KEY_D)) {
-            moveRight(delta);
-            moved = true;
+        if(input.isKeyDown(Input.KEY_D)) {
+            act.moveHorizontal++;
         }
         
-        if(!moved) stopMoving();
+        updateActions(delta);
     }
 
     @Override
