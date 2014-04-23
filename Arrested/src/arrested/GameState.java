@@ -10,6 +10,8 @@ import arrested.actors.Actor;
 import arrested.actors.Player;
 import java.util.LinkedList;
 import java.util.List;
+import org.newdawn.slick.Animation;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import util.ResourceLibrary;
 
@@ -25,6 +27,8 @@ public class GameState {
     private final List<Actor> actorList, actorsToBeAdded;
     
     private final ResourceLibrary resLib;
+    
+    private Image cursor;
 
     private Input input;
     
@@ -35,11 +39,13 @@ public class GameState {
         this.delta = 1d/fps;
         
         resLib = new ResourceLibrary();
+        cursor = resLib.getImg("cursor");
         
         actorList = new LinkedList<>();
         actorsToBeAdded = new LinkedList<>();
         
         addNewActor(new Player());
+        input = new Input(1);
         updateActorList();
     }
     
@@ -54,6 +60,7 @@ public class GameState {
         for(Actor actor : actorList) {
             actor.render();
         }
+        cursor.draw(input.getMouseX(), input.getMouseY());
     }
 
     public int getScreenWidth() { return screenWidth; }

@@ -11,7 +11,7 @@ package arrested.actors;
  * @author Aaron
  */
 public class CharacterActions {
-    public int moveHorizontal, moveVertical;
+    public int moveHorizontal, moveVertical, changeDir;
     
-    public CharacterActions() { moveHorizontal = 0; moveVertical = 0; }
+    public CharacterActions() { moveHorizontal = 0; moveVertical = 0; changeDir = 0;}
 }

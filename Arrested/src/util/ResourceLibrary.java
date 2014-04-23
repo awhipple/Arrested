@@ -7,6 +7,7 @@
 package util;
 
 import org.newdawn.slick.Animation;
+import org.newdawn.slick.Image;
 
 /**
  *
@@ -14,9 +15,13 @@ import org.newdawn.slick.Animation;
  */
 public class ResourceLibrary {
     private AnimationLibrary animLib;
+    private ImageLibrary imgLib;
     
     public ResourceLibrary() {
+        imgLib = new ImageLibrary();
         animLib = new AnimationLibrary();
+        
+        imgLib.loadImage("cursor", "res/images/cursor.png");
         
         animLib.loadAnim("playerWalkUp", "res/images/playerWalkUp.png");
         animLib.loadAnim("playerWalkDown", "res/images/playerWalkDown.png");
@@ -27,6 +32,10 @@ public class ResourceLibrary {
         animLib.loadAnim("playerStandDown", "res/images/playerStandDown.png");
         animLib.loadAnim("playerStandLeft", "res/images/playerStandLeft.png");
         animLib.flipAnim("playerStandRight", "playerStandLeft");
+    }
+    
+    public Image getImg(String key) {
+        return imgLib.getImage(key);
     }
     
     public Animation getAnim(String key) {

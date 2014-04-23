@@ -57,6 +57,13 @@ public class Player extends Character implements Actor {
             act.moveHorizontal++;
         }
         
+        double radToCursor = util.GameMath.pointsToRad(x, y, input.getMouseX(), input.getMouseY());
+        
+        if(radToCursor >= Math.PI*1.25 && radToCursor <= Math.PI*1.75) act.changeDir = 1;
+        else if(radToCursor >= Math.PI*1.75 || radToCursor <= Math.PI*0.25) act.changeDir = 2;
+        else if(radToCursor >= Math.PI*0.25 && radToCursor <= Math.PI*0.75) act.changeDir = 3;
+        else act.changeDir = 4;
+        
         updateActions(delta);
     }
 
